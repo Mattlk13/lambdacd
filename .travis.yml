@@ -1,3 +1,5 @@
+dist: focal # run the build on ubuntu 20.04 for a recent nodejs version
+
 before_script:
   - ./scripts/travis_prebuild.sh
   - ./go deps
@@ -14,7 +16,7 @@ script: ./go test && ./go check-style
 jobs:
   include:
     - stage: check dependencies for vulnerabilities
-      script: ./go check-dependencies
+      script: travis_wait 30 ./go check-dependencies
     - stage: check for flakyness
       script: ./go test-clj-unit-repeat
 sudo: required

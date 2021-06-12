@@ -2,7 +2,7 @@
                        (System/getenv "CLOJURE_VERSION")
                        "1.8.0"))
 
-(defproject lambdacd "0.14.5-SNAPSHOT"
+(defproject lambdacd "0.14.8-SNAPSHOT"
   :description "A library to create a continous delivery pipeline in code."
   :url "http://github.com/flosell/lambdacd"
   :license {:name "Apache License, version 2.0"
@@ -10,7 +10,6 @@
   :min-lein-version "2.5.0"
   :deploy-repositories [["clojars" {:creds :gpg}]
                         ["releases" :clojars]]
-  :repositories [["gocd" "https://dl.bintray.com/gocd-maven-repo/generic/gocd"]] ; for jezhumbles javasysmon
   :source-paths ["src/clj" "src/cljs"]
   :test-paths ["test/clj" "example/clj"]
   :jar-exclusions [#"logback.xml"]
@@ -24,13 +23,14 @@
                                                     org.apache.commons/commons-compress]]
                  [org.clojure/core.async "0.4.474"]
                  [compojure "1.6.1"]
+                 [commons-io "2.7"]                         ; force transitive dependency to not depend on libraries with known vulnerabilities
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-api "1.7.21"]
                  [ring/ring-json "0.3.1"]
                  [cheshire "5.4.0"]
                  [cljsjs/moment "2.22.2-0"]
                  [clj-time "0.9.0"]
-                 [com.jezhumble/javasysmon "0.3.6"]
+                 [com.danielflower.apprunner/javasysmon  "0.3.5.1"]
                  [clj-timeframes "0.1.0"]]
   ; excluding a few transitive dependencies:
   ; process-tree-killer depends on this for windows only and doesnt provide it...
@@ -99,7 +99,7 @@
 
                         :source-paths ["env/dev/clj"]
                         :plugins      [[lein-figwheel "0.5.16"]
-                                       [lein-nvd "1.3.1"]]
+                                       [lein-nvd "1.4.1"]]
                         :nvd {:suppression-file "suppression.xml"}
 
                         :injections   [(require 'pjstadig.humane-test-output)
